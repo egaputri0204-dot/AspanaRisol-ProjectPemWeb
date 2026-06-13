@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit Kategori</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>✏️ Edit Kategori</h2>
+
+      <form action="/kategori/edit/<%= kategori.id %>" method="POST">
+        <input
+          type="text"
+          name="nama_kategori"
+          value="<%= kategori.nama_kategori %>"
+          required
+        />
+
+        <br /><br />
+
+        <button type="submit">Update</button>
+      </form>
+
+      <br />
+
+      <a href="/kategori"> Kembali </a>
+    </div>
+  </body>
+</html>

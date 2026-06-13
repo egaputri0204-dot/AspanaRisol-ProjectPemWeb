@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Produk</title>
+</head>
+<body>
+
+<h2>🍽 Data Produk</h2>
+
+<table border="1" cellpadding="10">
+
+    <a href="/produk/tambah">
+    + Tambah Produk
+</a>
+
+<br><br>
+
+<tr>
+    <th>ID</th>
+    <th>Nama Produk</th>
+    <th>Harga</th>
+    <th>Kategori</th>
+</tr>
+
+<% produk.forEach(function(item){ %>
+
+<tr>
+
+    <td><%= item.id %></td>
+
+    <td><%= item.nama_produk %></td>
+
+    <td><%= item.harga %></td>
+
+    <td><%= item.nama_kategori %></td>
+
+</tr>
+
+<% }) %>
+
+</table>
+
+</body>
+</html>

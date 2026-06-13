@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tambah Produk</title>
+</head>
+<body>
+
+<h2>➕ Tambah Produk</h2>
+
+<form
+    action="/produk/tambah"
+    method="POST"
+    enctype="multipart/form-data">
+
+    <input
+        type="text"
+        name="nama_produk"
+        placeholder="Nama Produk"
+        required>
+
+    <br><br>
+
+    <textarea
+        name="deskripsi"
+        placeholder="Deskripsi">
+    </textarea>
+
+    <br><br>
+
+    <input
+        type="number"
+        name="harga"
+        placeholder="Harga"
+        required>
+
+    <br><br>
+
+    <input
+        type="file"
+        name="gambar">
+
+    <br><br>
+
+    <select
+        name="kategori_id"
+        required>
+
+        <option value="">
+            Pilih Kategori
+        </option>
+
+        <% kategori.forEach(function(item){ %>
+
+        <option value="<%= item.id %>">
+            <%= item.nama_kategori %>
+        </option>
+
+        <% }) %>
+
+    </select>
+
+    <br><br>
+
+    <button type="submit">
+        Simpan Produk
+    </button>
+
+</form>
+
+<br>
+
+<a href="/produk">
+    Kembali
+</a>
+
+</body>
+</html>

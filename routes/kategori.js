@@ -3,6 +3,7 @@ const router = express.Router();
 
 const db = require("../config/db");
 
+// Tampil data kategori
 router.get("/", (req, res) => {
   db.query("SELECT * FROM kategori", (err, result) => {
     if (err) {
@@ -12,6 +13,74 @@ router.get("/", (req, res) => {
     res.render("kategori", {
       kategori: result,
     });
+  });
+});
+
+// Form tambah kategori
+router.get("/tambah", (req, res) => {
+  res.render("tambahKategori");
+});
+
+// Simpan kategori
+router.post("/tambah", (req, res) => {
+  const nama_kategori = req.body.nama_kategori;
+
+  db.query(
+    "INSERT INTO kategori (nama_kategori) VALUES (?)",
+    [nama_kategori],
+    (err) => {
+      if (err) {
+        return res.send(err);
+      }
+
+      res.redirect("/kategori");
+    },
+  );
+});
+
+// Form Edit
+router.get("/edit/:id", (req, res) => {
+  const id = req.params.id;
+
+  db.query("SELECT * FROM kategori WHERE id = ?", [id], (err, result) => {
+    if (err) {
+      return res.send(err);
+    }
+
+    res.render("editKategori", {
+      kategori: result[0],
+    });
+  });
+});
+
+// Proses Update
+router.post("/edit/:id", (req, res) => {
+  const id = req.params.id;
+  const nama_kategori = req.body.nama_kategori;
+
+  db.query(
+    "UPDATE kategori SET nama_kategori = ? WHERE id = ?",
+    [nama_kategori, id],
+    (err) => {
+      if (err) {
+        return res.send(err);
+      }
+
+      res.redirect("/kategori");
+    },
+  );
+});
+
+// Hapus kategori
+router.get("/hapus/:id", (req, res) => {
+  const id = req.params.id;
+
+  db.query("DELETE FROM kategori WHERE id = ?", [id], (err) => {
+    if (err) {
+      return res.send(err);
+    }
+
+    res.redirect("/kategori");
   });
 });
 

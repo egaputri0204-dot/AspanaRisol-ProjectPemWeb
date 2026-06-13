@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tambah Kategori</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="admin-card">
+      <h2 class="admin-title">➕ Tambah Kategori</h2>
+
+      <form action="/kategori/tambah" method="POST" class="admin-form">
+        <label>Nama Kategori</label>
+
+        <input
+          type="text"
+          name="nama_kategori"
+          placeholder="Masukkan nama kategori"
+          required
+        />
+
+        <button type="submit" class="btn-primary">Simpan Kategori</button>
+
+        <a href="/kategori" class="btn-kembali"> ← Kembali </a>
+      </form>
+    </div>
+  </body>
+</html>

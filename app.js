@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require("./config/db");
 
+const produkRoutes = require("./routes/produk");
 const kategoriRoutes = require("./routes/kategori");
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.use("/kategori", kategoriRoutes);
+app.use("/produk", produkRoutes);
 
 app.get("/", (req, res) => {
   res.send("Aspana Risol Express Berjalan");
