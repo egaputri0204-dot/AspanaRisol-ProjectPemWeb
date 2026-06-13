@@ -1,0 +1,40 @@
+body {
+  background: #dede52;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 900px;
+  margin: 50px auto;
+  background: #f7f1cf;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+h2 {
+  text-align: center;
+  color: #704819;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: white;
+}
+
+th {
+  background: #704819;
+  color: white;
+}
+
+th,
+td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+tr:hover {
+  background: #fff8c9;
+}

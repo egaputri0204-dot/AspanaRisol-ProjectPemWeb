@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Kategori</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+<h2>📂 Data Kategori</h2>
+
+<table>
+
+<tr>
+    <th>ID</th>
+    <th>Nama Kategori</th>
+</tr>
+
+<% kategori.forEach(function(item){ %>
+
+<tr>
+    <td><%= item.id %></td>
+    <td><%= item.nama_kategori %></td>
+</tr>
+
+<% }) %>
+
+</table>
+
+</div>
+
+</body>
+</html>
