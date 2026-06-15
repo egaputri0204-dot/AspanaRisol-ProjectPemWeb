@@ -18,8 +18,10 @@
 <tr>
     <th>ID</th>
     <th>Nama Produk</th>
+    <th>Gambar</th>
     <th>Harga</th>
     <th>Kategori</th>
+    <th>Aksi</th>
 </tr>
 
 <% produk.forEach(function(item){ %>
@@ -30,9 +32,30 @@
 
     <td><%= item.nama_produk %></td>
 
+    <td>
+        <img
+            src="/uploads/<%= item.gambar %>"
+            width="80">
+    </td>
+
     <td><%= item.harga %></td>
 
     <td><%= item.nama_kategori %></td>
+
+    <td>
+
+        <a href="/produk/edit/<%= item.id %>">
+            Edit
+        </a>
+
+        |
+
+        <a href="/produk/hapus/<%= item.id %>"
+           onclick="return confirm('Yakin ingin menghapus produk ini?')">
+            Hapus
+        </a>
+
+    </td>
 
 </tr>
 

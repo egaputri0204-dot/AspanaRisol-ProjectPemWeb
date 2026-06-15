@@ -72,4 +72,63 @@ router.post("/tambah", upload.single("gambar"), (req, res) => {
   );
 });
 
+// Form Edit Produk
+router.get("/edit/:id", (req, res) => {
+  const id = req.params.id;
+
+  db.query("SELECT * FROM produk WHERE id = ?", [id], (err, produkResult) => {
+    if (err) {
+      return res.send(err);
+    }
+
+    db.query("SELECT * FROM kategori", (err, kategoriResult) => {
+      if (err) {
+        return res.send(err);
+      }
+
+      res.render("editProduk", {
+        produk: produkResult[0],
+        kategori: kategoriResult,
+      });
+    });
+  });
+});
+
+// Proses Update Produk
+router.post("/edit/:id", (req, res) => {
+  const id = req.params.id;
+
+  const { nama_produk, deskripsi, harga, kategori_id } = req.body;
+
+  db.query(
+    `UPDATE produk
+     SET nama_produk = ?,
+         deskripsi = ?,
+         harga = ?,
+         kategori_id = ?
+     WHERE id = ?`,
+    [nama_produk, deskripsi, harga, kategori_id, id],
+    (err) => {
+      if (err) {
+        return res.send(err);
+      }
+
+      res.redirect("/produk");
+    },
+  );
+});
+
+// Hapus Produk
+router.get("/hapus/:id", (req, res) => {
+  const id = req.params.id;
+
+  db.query("DELETE FROM produk WHERE id = ?", [id], (err) => {
+    if (err) {
+      return res.send(err);
+    }
+
+    res.redirect("/produk");
+  });
+});
+
 module.exports = router;

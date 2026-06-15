@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detail Pesanan</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+<h2>📦 Detail Pesanan #<%= pesanan_id %></h2>
+
+<table>
+
+<tr>
+    <th>Produk</th>
+    <th>Harga</th>
+    <th>Jumlah</th>
+</tr>
+
+<% detail.forEach(function(item){ %>
+
+<tr>
+
+    <td><%= item.nama_produk %></td>
+
+    <td>
+        Rp <%= item.harga %>
+    </td>
+
+    <td>
+        <%= item.jumlah %>
+    </td>
+
+</tr>
+
+<% }) %>
+
+</table>
+
+<br>
+
+<a href="/pesanan">
+    ← Kembali
+</a>
+
+</div>
+
+</body>
+</html>

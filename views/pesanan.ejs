@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Pesanan</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="admin-card">
+
+    <h2 class="admin-title">
+        📦 Data Pesanan Pelanggan
+    </h2>
+
+    <div class="summary-card">
+
+        <div class="summary-item">
+            <h3><%= totalPesanan %></h3>
+            <p>Total Pesanan</p>
+        </div>
+
+        <div class="summary-item">
+            <h3>
+                Rp <%= totalPendapatan.toLocaleString("id-ID") %>
+            </h3>
+            <p>Total Pendapatan</p>
+        </div>
+
+    </div>
+
+    <a href="/dashboard" class="btn-kembali">
+        ← Dashboard
+    </a>
+
+    <br><br>
+
+    <div class="admin-table-wrapper">
+
+        <table class="admin-table">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama Pembeli</th>
+                    <th>No HP</th>
+                    <th>Total</th>
+                    <th>Tanggal</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            <% pesanan.forEach(function(item){ %>
+
+                <tr>
+
+                    <td><%= item.id %></td>
+
+                    <td><%= item.nama_pembeli %></td>
+
+                    <td><%= item.no_hp %></td>
+
+                    <td>
+                        Rp <%= Number(item.total).toLocaleString("id-ID") %>
+                    </td>
+
+                    <td>
+                        <%= new Date(item.tanggal).toLocaleString("id-ID", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        }) %>
+                    </td>
+
+                    <td>
+                        <% let warna = "status-pending";
+
+                        if(item.status === "Diproses"){
+                            warna = "status-diproses";
+                        }
+
+                        if(item.status === "Selesai"){
+                            warna = "status-selesai";
+                        }
+                        %>
+
+                        <span
+                            id="status<%= item.id %>"
+                            class="<%= warna %>"
+                        >
+                            <%= item.status %>
+                        </span>
+                    </td>
+
+                    <td class="action-buttons">
+
+                        <a href="/pesanan/detail/<%= item.id %>"
+                            class="btn-detail"
+                            > 
+                            Detail
+                        </a>
+
+                        <br>
+
+                        <button 
+                            class="btn-status"
+                            data-id="<%= item.id %>"
+                            onclick="updateStatus(this.dataset.id)"
+                            >
+                                Update Status
+                        </button>
+                    </td>
+                </tr>
+            <% }) %>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+function updateStatus(id){
+
+    console.log("ID:", id);
+
+    fetch("/pesanan/status/" + id)
+
+    .then(response => response.text())
+
+    .then(statusBaru => {
+
+        const statusElement =
+        document.getElementById("status" + id);
+
+        statusElement.innerHTML =
+        statusBaru.trim();
+
+        statusElement.className =
+        "status-" + statusBaru.toLowerCase();
+
+    });
+
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Produk</title>
+</head>
+<body>
+
+<h2>✏ Edit Produk</h2>
+
+<form action="/produk/edit/<%= produk.id %>"
+      method="POST">
+
+    <input
+        type="text"
+        name="nama_produk"
+        value="<%= produk.nama_produk %>"
+        required>
+
+    <br><br>
+
+    <textarea
+        name="deskripsi"><%= produk.deskripsi %></textarea>
+
+    <br><br>
+
+    <input
+        type="number"
+        name="harga"
+        value="<%= produk.harga %>"
+        required>
+
+    <br><br>
+
+    <select
+        name="kategori_id">
+
+        <% kategori.forEach(function(item){ %>
+
+        <option
+            value="<%= item.id %>"
+            <%= item.id == produk.kategori_id ? 'selected' : '' %>>
+
+            <%= item.nama_kategori %>
+
+        </option>
+
+        <% }) %>
+
+    </select>
+
+    <br><br>
+
+    <button type="submit">
+        Update Produk
+    </button>
+
+</form>
+
+</body>
+</html>

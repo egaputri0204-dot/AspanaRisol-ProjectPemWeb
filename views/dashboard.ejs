@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard Admin</title>
+
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="admin-card">
+      <h1 class="admin-title">Dashboard Admin</h1>
+
+      <p style="text-align: center">
+        Selamat Datang,
+        <b><%= admin.username %></b>
+      </p>
+
+      <div class="dashboard-cards">
+        <div class="dashboard-card">
+          <h3><%= statistik.totalKategori %></h3>
+          <p>Total Kategori</p>
+        </div>
+
+        <div class="dashboard-card">
+          <h3><%= statistik.totalProduk %></h3>
+          <p>Total Produk</p>
+        </div>
+
+        <div class="dashboard-card">
+          <h3><%= statistik.totalPesanan %></h3>
+          <p>Total Pesanan</p>
+        </div>
+
+        <div class="dashboard-card">
+          <h3>
+            Rp <%= Number(statistik.totalPendapatan).toLocaleString("id-ID") %>
+          </h3>
+          <p>Total Pendapatan</p>
+        </div>
+      </div>
+
+      <div class="dashboard-menu">
+        <a href="/kategori" class="btn-detail"> 📂 Kelola Kategori </a>
+
+        <a href="/produk" class="btn-detail"> 🍽 Kelola Produk </a>
+
+        <a href="/pesanan" class="btn-detail"> 📦 Data Pesanan </a>
+
+        <a href="/logout" class="btn-hapus"> 🚪 Logout </a>
+      </div>
+    </div>
+  </body>
+</html>

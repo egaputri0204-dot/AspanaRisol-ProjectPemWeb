@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Checkout</title>
+
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>🛒 Checkout</h2>
+
+      <form action="/checkout" method="POST" id="checkoutForm">
+        <p>Nama Pemesan</p>
+
+        <input type="text" id="nama" name="nama_pembeli" required />
+
+        <p>No HP</p>
+
+        <input type="text" id="nohp" name="no_hp" required />
+
+        <p>Alamat</p>
+
+        <textarea id="alamat" name="alamat" required> </textarea>
+
+        <input type="hidden" name="cart" id="cartData" />
+
+        <br /><br />
+
+        <button type="submit">Simpan Pesanan</button>
+      </form>
+    </div>
+
+    <script>
+      document
+        .getElementById("checkoutForm")
+        .addEventListener("submit", function () {
+          const cart = localStorage.getItem("cart");
+
+          document.getElementById("cartData").value = cart;
+        });
+    </script>
+  </body>
+</html>
