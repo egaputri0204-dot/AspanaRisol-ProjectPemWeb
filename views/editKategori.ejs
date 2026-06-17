@@ -2,13 +2,20 @@
 <html>
   <head>
     <title>Edit Kategori</title>
+
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
-    <div class="container">
-      <h2>✏️ Edit Kategori</h2>
+    <div class="admin-card">
+      <h2 class="admin-title">✏ Edit Kategori</h2>
 
-      <form action="/kategori/edit/<%= kategori.id %>" method="POST">
+      <form
+        action="/kategori/edit/<%= kategori.id %>"
+        method="POST"
+        class="admin-form"
+      >
+        <label>Nama Kategori</label>
+
         <input
           type="text"
           name="nama_kategori"
@@ -16,14 +23,12 @@
           required
         />
 
-        <br /><br />
+        <div class="form-actions">
+          <a href="/kategori" class="btn-kembali"> ← Kembali </a>
 
-        <button type="submit">Update</button>
+          <button type="submit" class="btn-primary">Update Kategori</button>
+        </div>
       </form>
-
-      <br />
-
-      <a href="/kategori"> Kembali </a>
     </div>
   </body>
 </html>

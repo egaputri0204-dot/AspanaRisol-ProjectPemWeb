@@ -2,51 +2,72 @@
 <html>
 <head>
     <title>Data Kategori</title>
+
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<div class="container">
+<div class="admin-card">
 
-<h2>📂 Data Kategori</h2>
+    <h2 class="admin-title">
+        📂 Data Kategori
+    </h2>
 
-<a href="/kategori/tambah">
-    + Tambah Kategori
-</a>
+    <a href="/dashboard" class="btn-kembali">
+        ← Dashboard
+    </a>
 
-<br><br>
+    <a href="/kategori/tambah" class="btn-tambah">
+        + Tambah Kategori
+    </a>
 
-<table>
+    <br><br>
 
-<tr>
-    <th>ID</th>
-    <th>Nama Kategori</th>
-    <th>Aksi</th>
-</tr>
+    <div class="admin-table-wrapper">
 
-<% kategori.forEach(function(item){ %>
+        <table class="admin-table">
 
-<tr>
-    <td><%= item.id %></td>
-    <td><%= item.nama_kategori %></td>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama Kategori</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
 
-    <td>
-        <a href="/kategori/edit/<%= item.id %>">
-            Edit
-        </a>
+            <tbody>
 
-        |
+            <% kategori.forEach(function(item){ %>
 
-        <a href="/kategori/hapus/<%= item.id %>"
-           onclick="return confirm('Yakin ingin menghapus kategori ini?')">
-            Hapus
-        </a>
-    </td>
-</tr>
+                <tr>
 
-<% }) %>
+                    <td>
+                        <%= item.id %>
+                    </td>
 
-</table>
+                    <td>
+                        <%= item.nama_kategori %>
+                    </td>
+
+                    <td class="action-buttons">
+                        <a href="/kategori/edit/<%= item.id %>" class="btn-edit">
+                            Edit
+                        </a>
+                        
+                        <a href="/kategori/hapus/<%= item.id %>" class="btn-hapus">
+                            Hapus
+                        </a>
+                    </td>
+
+                </tr>
+
+            <% }) %>
+
+            </tbody>
+
+        </table>
+
+    </div>
 
 </div>
 

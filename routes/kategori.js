@@ -75,13 +75,33 @@ router.post("/edit/:id", (req, res) => {
 router.get("/hapus/:id", (req, res) => {
   const id = req.params.id;
 
-  db.query("DELETE FROM kategori WHERE id = ?", [id], (err) => {
-    if (err) {
-      return res.send(err);
-    }
+  // cek apakah kategori masih dipakai produk
+  db.query(
+    "SELECT * FROM produk WHERE kategori_id = ?",
+    [id],
+    (err, result) => {
+      if (err) {
+        return res.send(err);
+      }
 
-    res.redirect("/kategori");
-  });
+      if (result.length > 0) {
+        return res.send(`
+          <script>
+          alert('Kategori tidak bisa dihapus karena masih digunakan oleh produk!');
+          window.location='/kategori';
+          </script>
+          `);
+      }
+
+      db.query("DELETE FROM kategori WHERE id = ?", [id], (err) => {
+        if (err) {
+          return res.send(err);
+        }
+
+        res.redirect("/kategori");
+      });
+    },
+  );
 });
 
 module.exports = router;
