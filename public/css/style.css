@@ -676,6 +676,30 @@ footer {
   border-radius: 12px;
 }
 
+.checkout-summary {
+  background: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 25px;
+
+  border-left: 5px solid #8b5a17;
+}
+
+.checkout-summary h3 {
+  color: #8b5a17;
+  margin-bottom: 15px;
+}
+
+.checkout-summary p {
+  margin: 8px 0;
+}
+
+.checkout-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
 /* Detail Pesanan */
 .detail-table {
   width: 100%;

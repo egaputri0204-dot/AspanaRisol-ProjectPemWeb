@@ -14,6 +14,9 @@ router.post("/", (req, res) => {
 
   const cartItems = JSON.parse(cart);
 
+  console.log("Isi Cart:");
+  console.log(cartItems);
+
   let total = 0;
 
   cartItems.forEach((item) => {
@@ -39,12 +42,18 @@ router.post("/", (req, res) => {
       cartItems.forEach((item) => {
         db.query(
           `SELECT id
-           FROM produk
-           WHERE nama_produk = ?`,
-          [item.title],
+          FROM produk
+          WHERE id = ?`,
+          [item.id],
           (err, produkResult) => {
             if (err) {
               return res.send(err);
+            }
+
+            if (produkResult.length === 0) {
+              return res.send(
+                "Produk tidak ditemukan. Kosongkan cart lalu tambah produk kembali.",
+              );
             }
 
             const produkId = produkResult[0].id;

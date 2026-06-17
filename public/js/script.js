@@ -136,6 +136,8 @@ document.querySelectorAll(".cart-btn").forEach((btn) => {
   btn.addEventListener("click", function () {
     const item = this.closest(".item");
 
+    const id = item.dataset.id;
+
     const title = item.querySelector(".item-title").innerText;
 
     const price = item.querySelector(".item-harga").innerText;
@@ -148,6 +150,7 @@ document.querySelectorAll(".cart-btn").forEach((btn) => {
       existingProduct.qty++;
     } else {
       cart.push({
+        id,
         title,
         price,
         image,

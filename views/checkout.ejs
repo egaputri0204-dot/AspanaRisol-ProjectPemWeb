@@ -2,32 +2,70 @@
 <html>
   <head>
     <title>Checkout</title>
-
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
-    <div class="container">
-      <h2>🛒 Checkout</h2>
+    <div class="admin-section">
+      <div class="admin-card">
+        <h2 class="admin-title">🛒 Checkout Pesanan</h2>
 
-      <form action="/checkout" method="POST" id="checkoutForm">
-        <p>Nama Pemesan</p>
+        <div id="checkout-summary" class="checkout-summary">
+          <h3>📦 Ringkasan Pesanan</h3>
 
-        <input type="text" id="nama" name="nama_pembeli" required />
+          <div id="summary-items"></div>
+          <hr />
+          <p>
+            <strong>Total Item:</strong>
+            <span id="total-item">0</span>
+          </p>
 
-        <p>No HP</p>
+          <p>
+            <strong>Total Bayar:</strong>
+            Rp <span id="total-harga">0</span>
+          </p>
+        </div>
 
-        <input type="text" id="nohp" name="no_hp" required />
+        <form
+          action="/checkout"
+          method="POST"
+          id="checkoutForm"
+          class="admin-form"
+        >
+          <label>Nama Pemesan</label>
 
-        <p>Alamat</p>
+          <input
+            type="text"
+            id="nama"
+            name="nama_pembeli"
+            placeholder="Masukkan nama pemesan"
+            required
+          />
 
-        <textarea id="alamat" name="alamat" required> </textarea>
+          <label>No HP</label>
 
-        <input type="hidden" name="cart" id="cartData" />
+          <input
+            type="tel"
+            id="nohp"
+            name="no_hp"
+            placeholder="Masukkan nomor HP"
+            pattern="[0-9]{10,15}"
+            required
+          />
 
-        <br /><br />
+          <label>Alamat</label>
 
-        <button type="submit">Simpan Pesanan</button>
-      </form>
+          <textarea
+            id="alamat"
+            name="alamat"
+            placeholder="Masukkan alamat lengkap"
+            required
+          ></textarea>
+
+          <input type="hidden" name="cart" id="cartData" />
+
+          <button type="submit" class="btn-primary">Pesan Sekarang!</button>
+        </form>
+      </div>
     </div>
 
     <script>
@@ -38,6 +76,35 @@
 
           document.getElementById("cartData").value = cart;
         });
+    </script>
+
+    <script>
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      const summaryItems = document.getElementById("summary-items");
+
+      let totalItem = 0;
+      let totalHarga = 0;
+
+      cart.forEach((item) => {
+        totalItem += item.qty;
+
+        const harga = Number(item.price.replace(/[^0-9]/g, ""));
+
+        totalHarga += harga * item.qty;
+
+        summaryItems.innerHTML += `
+          <div class="checkout-item">
+            <span>${item.title}</span>
+            <span>x ${item.qty}</span>
+          </div>
+        `;
+      });
+
+      document.getElementById("total-item").innerText = totalItem;
+
+      document.getElementById("total-harga").innerText =
+        totalHarga.toLocaleString("id-ID");
     </script>
   </body>
 </html>
