@@ -6,13 +6,37 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
+    <div class="dashboard-header">
+      <button id="menu-toggle">
+        <i data-feather="menu"></i>
+      </button>
+
+      <h2>Dashboard Admin</h2>
+    </div>
+
+    <div id="sidebar" class="sidebar">
+      <button id="close-sidebar">
+        <i data-feather="x"></i>
+      </button>
+
+      <h3>Menu Admin</h3>
+      <a href="/kategori"> 📂 Kelola Kategori</a>
+      <a href="/produk"> 🍽 Kelola Produk</a>
+      <a href="/pesanan"> 📦 Data Pesanan</a>
+      <a href="/logout">🚪 Logout</a>
+    </div>
+
     <div class="admin-card">
       <h1 class="admin-title">Dashboard Admin</h1>
 
-      <p style="text-align: center">
-        Selamat Datang,
-        <b><%= admin.username %></b>
-      </p>
+      <div class="welcome-box">
+        <h3>👋 Selamat Datang,<span><%= admin.username %></span></h3>
+
+        <p>
+          Kelola produk, kategori, dan pesanan pelanggan dengan mudah melalui
+          dashboard admin Aspana Risol.
+        </p>
+      </div>
 
       <div class="dashboard-cards">
         <div class="dashboard-card">
@@ -29,24 +53,36 @@
           <h3><%= statistik.totalPesanan %></h3>
           <p>Total Pesanan</p>
         </div>
-
-        <div class="dashboard-card">
-          <h3>
-            Rp <%= Number(statistik.totalPendapatan).toLocaleString("id-ID") %>
-          </h3>
-          <p>Total Pendapatan</p>
-        </div>
       </div>
 
-      <div class="dashboard-menu">
-        <a href="/kategori" class="btn-detail"> 📂 Kelola Kategori </a>
-
-        <a href="/produk" class="btn-detail"> 🍽 Kelola Produk </a>
-
-        <a href="/pesanan" class="btn-detail"> 📦 Data Pesanan </a>
-
-        <a href="/logout" class="btn-hapus"> 🚪 Logout </a>
+      <div class="summary-item">
+        <h3>
+          💰 Rp <%= Number(statistik.totalPendapatan).toLocaleString("id-ID") %>
+        </h3>
+        <p>Total Pendapatan</p>
       </div>
     </div>
+
+    <script>
+      const menuToggle = document.getElementById("menu-toggle");
+
+      const sidebar = document.getElementById("sidebar");
+
+      const closeSidebar = document.getElementById("close-sidebar");
+
+      menuToggle.addEventListener("click", () => {
+        sidebar.classList.add("active");
+      });
+
+      closeSidebar.addEventListener("click", () => {
+        sidebar.classList.remove("active");
+      });
+    </script>
+
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script>
+      feather.replace();
+    </script>
   </body>
 </html>

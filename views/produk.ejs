@@ -2,66 +2,122 @@
 <html>
 <head>
     <title>Data Produk</title>
+
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<h2>🍽 Data Produk</h2>
+<div class="admin-card">
 
-<table border="1" cellpadding="10">
+    <h2 class="admin-title">
+        🍽 Data Produk
+    </h2>
 
-    <a href="/produk/tambah">
-    + Tambah Produk
-</a>
+    <a href="/dashboard" class="btn-kembali">
+        ← Dashboard
+    </a>
 
-<br><br>
+    <a href="/produk/tambah" class="btn-tambah">
+        + Tambah Produk
+    </a>
 
-<tr>
-    <th>ID</th>
-    <th>Nama Produk</th>
-    <th>Gambar</th>
-    <th>Harga</th>
-    <th>Kategori</th>
-    <th>Aksi</th>
-</tr>
+    <br><br>
 
-<% produk.forEach(function(item){ %>
+    <div class="admin-table-wrapper">
 
-<tr>
+    <table class="admin-table">
 
-    <td><%= item.id %></td>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Gambar</th>
+                <th>Nama Produk</th>
+                <th>Harga</th>
+                <th>Kategori</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
 
-    <td><%= item.nama_produk %></td>
+        <tbody>
 
-    <td>
-        <img
-            src="/uploads/<%= item.gambar %>"
-            width="80">
-    </td>
+        <% produk.forEach(function(item){ %>
 
-    <td><%= item.harga %></td>
+        <tr>
 
-    <td><%= item.nama_kategori %></td>
+            <td>
+                <%= item.id %>
+            </td>
 
-    <td>
+            <td>
+                <img
+                    src="/uploads/<%= item.gambar %>"
+                    width="80"
+                    class="preview-image"
+                >
+            </td>
 
-        <a href="/produk/edit/<%= item.id %>">
-            Edit
-        </a>
+            <td>
+                <%= item.nama_produk %>
+            </td>
 
-        |
+            <td>
+                Rp <%= Number(item.harga).toLocaleString("id-ID") %>
+            </td>
 
-        <a href="/produk/hapus/<%= item.id %>"
-           onclick="return confirm('Yakin ingin menghapus produk ini?')">
-            Hapus
-        </a>
+            <td>
+                <%= item.nama_kategori %>
+            </td>
 
-    </td>
+            <td>
 
-</tr>
+                <% if(item.status === "Aktif"){ %>
 
-<% }) %>
+                    <span class="status-aktif">
+                        Aktif
+                    </span>
 
-</table>
+                <% } else { %>
+
+                    <span class="status-nonaktif">
+                        Nonaktif
+                    </span>
+
+                <% } %>
+
+            </td>
+
+            <td class="action-buttons">
+                <a href="/produk/edit/<%= item.id %>" class="btn-edit">
+                    Edit
+                </a>
+                
+                <% if(item.status === "Aktif"){ %>
+                    <a href="/produk/nonaktif/<%= item.id %>" class="btn-hapus"
+                        onclick="return confirm('Nonaktifkan produk ini?')">
+                        Nonaktifkan
+                    </a>
+                
+                <% } else { %>
+                    
+                    <a href="/produk/aktifkan/<%= item.id %>" class="btn-primary"
+                        onclick="return confirm('Aktifkan kembali produk ini?')">
+                        Aktifkan
+                    </a>
+                <% } %>
+            </td>
+
+        </tr>
+
+        <% }) %>
+
+        </tbody>
+
+    </table>
+
+    </div>
+
+</div>
 
 </body>
 </html>

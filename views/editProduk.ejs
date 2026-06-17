@@ -2,59 +2,100 @@
 <html>
 <head>
     <title>Edit Produk</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<h2>✏ Edit Produk</h2>
+<div class="admin-card">
 
-<form action="/produk/edit/<%= produk.id %>"
-      method="POST">
+    <h2 class="admin-title">
+        ✏ Edit Produk
+    </h2>
 
-    <input
-        type="text"
-        name="nama_produk"
-        value="<%= produk.nama_produk %>"
-        required>
+    <form
+        action="/produk/edit/<%= produk.id %>"
+        method="POST"
+        enctype="multipart/form-data"
+        class="admin-form"
+    >
 
-    <br><br>
+        <label>Nama Produk</label>
 
-    <textarea
-        name="deskripsi"><%= produk.deskripsi %></textarea>
+        <input
+            type="text"
+            name="nama_produk"
+            value="<%= produk.nama_produk %>"
+            required
+        >
 
-    <br><br>
+        <label>Deskripsi</label>
 
-    <input
-        type="number"
-        name="harga"
-        value="<%= produk.harga %>"
-        required>
+        <textarea
+            name="deskripsi"
+            rows="4"
+        ><%= produk.deskripsi %></textarea>
 
-    <br><br>
+        <label>Harga</label>
 
-    <select
-        name="kategori_id">
+        <input
+            type="number"
+            name="harga"
+            value="<%= produk.harga %>"
+            required
+        >
 
-        <% kategori.forEach(function(item){ %>
+        <label>Kategori</label>
 
-        <option
-            value="<%= item.id %>"
-            <%= item.id == produk.kategori_id ? 'selected' : '' %>>
+        <select name="kategori_id">
 
-            <%= item.nama_kategori %>
+            <% kategori.forEach(function(item){ %>
 
-        </option>
+            <option
+                value="<%= item.id %>"
+                <%= item.id == produk.kategori_id ? 'selected' : '' %>
+            >
+                <%= item.nama_kategori %>
+            </option>
 
-        <% }) %>
+            <% }) %>
 
-    </select>
+        </select>
 
-    <br><br>
+        <label>Gambar Saat Ini</label>
 
-    <button type="submit">
-        Update Produk
-    </button>
+        <img
+            src="/uploads/<%= produk.gambar %>"
+            class="preview-image"
+        >
 
-</form>
+        <label>Ganti Gambar</label>
+
+        <input
+            type="file"
+            name="gambar"
+        >
+
+        <div class="form-actions">
+
+            <a
+                href="/produk"
+                class="btn-kembali"
+            >
+                ← Kembali
+            </a>
+
+            <button
+                type="submit"
+                class="btn-primary"
+            >
+                Update Produk
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
 
 </body>
 </html>

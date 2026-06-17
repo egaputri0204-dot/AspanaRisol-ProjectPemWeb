@@ -2,76 +2,89 @@
 <html>
 <head>
     <title>Tambah Produk</title>
+
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<h2>➕ Tambah Produk</h2>
+<div class="admin-card">
 
-<form
-    action="/produk/tambah"
-    method="POST"
-    enctype="multipart/form-data">
+    <h2 class="admin-title">
+        ➕ Tambah Produk
+    </h2>
 
-    <input
-        type="text"
-        name="nama_produk"
-        placeholder="Nama Produk"
-        required>
+    <form
+        action="/produk/tambah"
+        method="POST"
+        enctype="multipart/form-data"
+        class="admin-form">
 
-    <br><br>
+        <label>Nama Produk</label>
 
-    <textarea
-        name="deskripsi"
-        placeholder="Deskripsi">
-    </textarea>
+        <input
+            type="text"
+            name="nama_produk"
+            placeholder="Masukkan nama produk"
+            required>
 
-    <br><br>
+        <label>Deskripsi</label>
 
-    <input
-        type="number"
-        name="harga"
-        placeholder="Harga"
-        required>
+        <textarea
+            name="deskripsi"
+            placeholder="Masukkan deskripsi produk">
+        </textarea>
 
-    <br><br>
+        <label>Harga</label>
 
-    <input
-        type="file"
-        name="gambar">
+        <input
+            type="number"
+            name="harga"
+            placeholder="Masukkan harga produk"
+            required>
 
-    <br><br>
+        <label>Gambar Produk</label>
 
-    <select
-        name="kategori_id"
-        required>
+        <input
+            type="file"
+            name="gambar">
 
-        <option value="">
-            Pilih Kategori
-        </option>
+        <label>Kategori</label>
 
-        <% kategori.forEach(function(item){ %>
+        <select
+            name="kategori_id"
+            required>
 
-        <option value="<%= item.id %>">
-            <%= item.nama_kategori %>
-        </option>
+            <option value="">
+                -- Pilih Kategori --
+            </option>
 
-        <% }) %>
+            <% kategori.forEach(function(item){ %>
 
-    </select>
+                <option value="<%= item.id %>">
+                    <%= item.nama_kategori %>
+                </option>
 
-    <br><br>
+            <% }) %>
 
-    <button type="submit">
-        Simpan Produk
-    </button>
+        </select>
 
-</form>
+        <div class="form-actions">
 
-<br>
+            <a href="/produk" class="btn-kembali">
+                ← Kembali
+            </a>
 
-<a href="/produk">
-    Kembali
-</a>
+            <button
+                type="submit"
+                class="btn-primary">
+                Simpan Produk
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
 
 </body>
 </html>

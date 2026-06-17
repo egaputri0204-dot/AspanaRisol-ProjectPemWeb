@@ -9,7 +9,8 @@ router.get("/", (req, res) => {
     FROM produk
     LEFT JOIN kategori
     ON produk.kategori_id = kategori.id
-  `;
+    WHERE produk.status = 'Aktif'
+`;
 
   db.query(sql, (err, result) => {
     if (err) {

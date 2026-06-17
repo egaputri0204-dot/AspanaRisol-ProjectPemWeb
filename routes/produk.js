@@ -95,19 +95,49 @@ router.get("/edit/:id", (req, res) => {
 });
 
 // Proses Update Produk
-router.post("/edit/:id", (req, res) => {
+router.post("/edit/:id", upload.single("gambar"), (req, res) => {
   const id = req.params.id;
 
   const { nama_produk, deskripsi, harga, kategori_id } = req.body;
 
+  db.query("SELECT gambar FROM produk WHERE id = ?", [id], (err, result) => {
+    if (err) {
+      return res.send(err);
+    }
+
+    let gambar = result[0].gambar;
+
+    if (req.file) {
+      gambar = req.file.filename;
+    }
+
+    db.query(
+      `UPDATE produk
+         SET nama_produk = ?,
+             deskripsi = ?,
+             harga = ?,
+             kategori_id = ?,
+             gambar = ?
+         WHERE id = ?`,
+      [nama_produk, deskripsi, harga, kategori_id, gambar, id],
+      (err) => {
+        if (err) {
+          return res.send(err);
+        }
+
+        res.redirect("/produk");
+      },
+    );
+  });
+});
+
+// Nonaktifkan Produk
+router.get("/nonaktif/:id", (req, res) => {
+  const id = req.params.id;
+
   db.query(
-    `UPDATE produk
-     SET nama_produk = ?,
-         deskripsi = ?,
-         harga = ?,
-         kategori_id = ?
-     WHERE id = ?`,
-    [nama_produk, deskripsi, harga, kategori_id, id],
+    "UPDATE produk SET status = 'Nonaktif' WHERE id = ?",
+    [id],
     (err) => {
       if (err) {
         return res.send(err);
@@ -118,11 +148,11 @@ router.post("/edit/:id", (req, res) => {
   );
 });
 
-// Hapus Produk
-router.get("/hapus/:id", (req, res) => {
+// Aktifkan Produk
+router.get("/aktifkan/:id", (req, res) => {
   const id = req.params.id;
 
-  db.query("DELETE FROM produk WHERE id = ?", [id], (err) => {
+  db.query("UPDATE produk SET status = 'Aktif' WHERE id = ?", [id], (err) => {
     if (err) {
       return res.send(err);
     }
