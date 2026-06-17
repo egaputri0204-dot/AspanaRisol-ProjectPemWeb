@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
+const cekLogin = require("../middleware/auth");
 const db = require("../config/db");
 
-router.get("/", (req, res) => {
+router.get("/", cekLogin, (req, res) => {
   db.query("SELECT * FROM pesanan ORDER BY id DESC", (err, result) => {
     if (err) {
       return res.send(err);
@@ -25,34 +26,41 @@ router.get("/", (req, res) => {
 });
 
 // Detail Pesanan
-router.get("/detail/:id", (req, res) => {
+router.get("/detail/:id", cekLogin, (req, res) => {
   const id = req.params.id;
 
-  const sql = `
-    SELECT
-      detail_pesanan.*,
-      produk.nama_produk,
-      produk.harga
-    FROM detail_pesanan
-    JOIN produk
-      ON detail_pesanan.produk_id = produk.id
-    WHERE detail_pesanan.pesanan_id = ?
-  `;
-
-  db.query(sql, [id], (err, result) => {
+  db.query("SELECT * FROM pesanan WHERE id = ?", [id], (err, pesanan) => {
     if (err) {
       return res.send(err);
     }
 
-    res.render("detailPesanan", {
-      detail: result,
-      pesanan_id: id,
+    const sql = `
+        SELECT
+          detail_pesanan.*,
+          produk.nama_produk,
+          produk.harga
+        FROM detail_pesanan
+        JOIN produk
+          ON detail_pesanan.produk_id = produk.id
+        WHERE detail_pesanan.pesanan_id = ?
+      `;
+
+    db.query(sql, [id], (err, detail) => {
+      if (err) {
+        return res.send(err);
+      }
+
+      res.render("detailPesanan", {
+        detail,
+        pesanan: pesanan[0],
+        pesanan_id: id,
+      });
     });
   });
 });
 
 // Update Status Pesanan
-router.get("/status/:id", (req, res) => {
+router.get("/status/:id", cekLogin, (req, res) => {
   const id = req.params.id;
 
   console.log("ID yang diterima:", id);

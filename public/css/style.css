@@ -703,6 +703,46 @@ footer {
   background-color: #fff8c9;
 }
 
+.detail-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.detail-header .summary-item {
+  max-width: 300px;
+}
+
+.admin-table td:nth-child(2),
+.admin-table td:nth-child(4) {
+  text-align: right;
+  padding-right: 25px;
+}
+
+tfoot th {
+  background: #704819;
+  color: white;
+  padding: 15px;
+}
+
+/* Detail Info Pesanan */
+.detail-info {
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  border-left: 5px solid #8b5a17;
+}
+
+.detail-info p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.detail-info strong {
+  color: #704819;
+}
+
 /* ADMIN PANEL */
 /* Admin Layout */
 .admin-section {
@@ -1009,6 +1049,13 @@ footer {
 }
 
 /* Login Section */
+.login-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .login-logo {
   text-align: center;
   margin-bottom: 15px;
@@ -1029,6 +1076,7 @@ footer {
 
 .login-card {
   max-width: 450px;
+  margin: auto;
 }
 
 .login-btn {

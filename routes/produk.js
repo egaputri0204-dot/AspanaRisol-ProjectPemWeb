@@ -2,6 +2,7 @@ const multer = require("multer");
 const express = require("express");
 const router = express.Router();
 
+const cekLogin = require("../middleware/auth");
 const db = require("../config/db");
 
 const storage = multer.diskStorage({
@@ -19,7 +20,7 @@ const upload = multer({
 });
 
 // Data Produk
-router.get("/", (req, res) => {
+router.get("/", cekLogin, (req, res) => {
   const sql = `
     SELECT produk.*, kategori.nama_kategori
     FROM produk
@@ -39,7 +40,7 @@ router.get("/", (req, res) => {
 });
 
 // Form Tambah Produk
-router.get("/tambah", (req, res) => {
+router.get("/tambah", cekLogin, (req, res) => {
   db.query("SELECT * FROM kategori", (err, kategori) => {
     if (err) {
       return res.send(err);
@@ -52,7 +53,7 @@ router.get("/tambah", (req, res) => {
 });
 
 // Simpan Produk
-router.post("/tambah", upload.single("gambar"), (req, res) => {
+router.post("/tambah", cekLogin, upload.single("gambar"), (req, res) => {
   const { nama_produk, deskripsi, harga, kategori_id } = req.body;
 
   const gambar = req.file ? req.file.filename : null;
@@ -73,7 +74,7 @@ router.post("/tambah", upload.single("gambar"), (req, res) => {
 });
 
 // Form Edit Produk
-router.get("/edit/:id", (req, res) => {
+router.get("/edit/:id", cekLogin, (req, res) => {
   const id = req.params.id;
 
   db.query("SELECT * FROM produk WHERE id = ?", [id], (err, produkResult) => {
@@ -95,7 +96,7 @@ router.get("/edit/:id", (req, res) => {
 });
 
 // Proses Update Produk
-router.post("/edit/:id", upload.single("gambar"), (req, res) => {
+router.post("/edit/:id", cekLogin, upload.single("gambar"), (req, res) => {
   const id = req.params.id;
 
   const { nama_produk, deskripsi, harga, kategori_id } = req.body;
@@ -132,7 +133,7 @@ router.post("/edit/:id", upload.single("gambar"), (req, res) => {
 });
 
 // Nonaktifkan Produk
-router.get("/nonaktif/:id", (req, res) => {
+router.get("/nonaktif/:id", cekLogin, (req, res) => {
   const id = req.params.id;
 
   db.query(
@@ -149,7 +150,7 @@ router.get("/nonaktif/:id", (req, res) => {
 });
 
 // Aktifkan Produk
-router.get("/aktifkan/:id", (req, res) => {
+router.get("/aktifkan/:id", cekLogin, (req, res) => {
   const id = req.params.id;
 
   db.query("UPDATE produk SET status = 'Aktif' WHERE id = ?", [id], (err) => {

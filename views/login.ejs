@@ -2,20 +2,47 @@
 <html>
   <head>
     <title>Login Admin</title>
+    <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
-    <h2>Login Admin</h2>
+    <div class="login-section">
+      <div class="admin-card login-card">
+        <div class="login-logo">
+          <img src="/photo/logo.png" alt="Logo Aspana" />
+        </div>
 
-    <form action="/login" method="POST">
-      <input type="text" name="username" placeholder="Username" required />
+        <h1 class="admin-title">Admin Panel</h1>
 
-      <br /><br />
+        <p class="login-subtitle">
+          Masuk untuk mengelola produk, kategori dan pesanan pelanggan.
+        </p>
 
-      <input type="password" name="password" placeholder="Password" required />
+        <form action="/login" method="POST" class="admin-form">
+          <label>Username</label>
 
-      <br /><br />
+          <input
+            type="text"
+            name="username"
+            placeholder="Masukkan username"
+            required
+          />
 
-      <button type="submit">Login</button>
-    </form>
+          <label>Password</label>
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Masukkan password"
+            required
+          />
+
+          <button type="submit" class="btn-primary login-btn">
+            Login Admin
+          </button>
+        </form>
+
+        <div class="login-footer">Aspana Risol Management System</div>
+      </div>
+    </div>
   </body>
 </html>

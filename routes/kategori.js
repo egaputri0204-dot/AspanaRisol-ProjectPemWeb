@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
+const cekLogin = require("../middleware/auth");
 const db = require("../config/db");
 
 // Tampil data kategori
-router.get("/", (req, res) => {
+router.get("/", cekLogin, (req, res) => {
   db.query("SELECT * FROM kategori", (err, result) => {
     if (err) {
       return res.send(err);
@@ -17,12 +18,12 @@ router.get("/", (req, res) => {
 });
 
 // Form tambah kategori
-router.get("/tambah", (req, res) => {
+router.get("/tambah", cekLogin, (req, res) => {
   res.render("tambahKategori");
 });
 
 // Simpan kategori
-router.post("/tambah", (req, res) => {
+router.post("/tambah", cekLogin, (req, res) => {
   const nama_kategori = req.body.nama_kategori;
 
   db.query(
@@ -39,7 +40,7 @@ router.post("/tambah", (req, res) => {
 });
 
 // Form Edit
-router.get("/edit/:id", (req, res) => {
+router.get("/edit/:id", cekLogin, (req, res) => {
   const id = req.params.id;
 
   db.query("SELECT * FROM kategori WHERE id = ?", [id], (err, result) => {
@@ -54,7 +55,7 @@ router.get("/edit/:id", (req, res) => {
 });
 
 // Proses Update
-router.post("/edit/:id", (req, res) => {
+router.post("/edit/:id", cekLogin, (req, res) => {
   const id = req.params.id;
   const nama_kategori = req.body.nama_kategori;
 
@@ -72,7 +73,7 @@ router.post("/edit/:id", (req, res) => {
 });
 
 // Hapus kategori
-router.get("/hapus/:id", (req, res) => {
+router.get("/hapus/:id", cekLogin, (req, res) => {
   const id = req.params.id;
 
   // cek apakah kategori masih dipakai produk
