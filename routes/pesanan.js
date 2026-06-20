@@ -98,4 +98,25 @@ router.get("/status/:id", cekLogin, (req, res) => {
   });
 });
 
+// Verifikasi Pembayaran
+router.get("/verifikasi/:id", cekLogin, (req, res) => {
+  const id = req.params.id;
+
+  db.query(
+    `
+    UPDATE pesanan
+    SET status_pembayaran='Lunas'
+    WHERE id=?
+    `,
+    [id],
+    (err) => {
+      if (err) {
+        return res.send(err);
+      }
+
+      res.redirect("/pesanan/detail/" + id);
+    },
+  );
+});
+
 module.exports = router;

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detail Pesanan Saya</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="admin-section">
+
+    <div class="admin-card">
+
+        <div class="detail-wrapper">
+
+            <h2 class="admin-title">
+                📦 Detail Pesanan Saya
+            </h2>
+
+            <!-- Informasi Pesanan -->
+            <div class="pesanan-card">
+
+                <div class="pesanan-top">
+
+                    <h3>
+                        Pesanan #<%= pesanan.id %>
+                    </h3>
+
+                    <span class="
+                        status
+                        <%= pesanan.status === 'Pending'
+                        ? 'pending'
+                        : pesanan.status === 'Diproses'
+                        ? 'proses'
+                        : 'selesai' %>
+                    ">
+                        <%= pesanan.status %>
+                    </span>
+
+                </div>
+
+                <div class="pesanan-info">
+
+                    <div>
+                        <small>Tanggal</small>
+
+                        <p>
+                            <%= new Date(pesanan.tanggal).toLocaleString("id-ID", {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit"
+                            }) %>
+                        </p>
+                    </div>
+
+                    <div>
+                        <small>Total Pembayaran</small>
+
+                        <p class="harga">
+                            Rp <%= Number(pesanan.total).toLocaleString("id-ID") %>
+                        </p>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <p>
+                    <strong>Metode Pembayaran :</strong>
+                    <%= pesanan.metode_pembayaran %>
+                </p>
+
+                <!-- Bukti Pembayaran -->
+                <% if (pesanan.bukti_pembayaran) { %>
+
+                    <div class="payment-info">
+
+                        <h4>📄 Bukti Pembayaran</h4>
+
+                        <img
+                            src="/bukti-transfer/<%= pesanan.bukti_pembayaran %>"
+                            alt="Bukti Pembayaran"
+                            class="qris-image"
+                        >
+
+                        <p class="upload-success">
+                            ✓ Bukti pembayaran sudah diupload
+                        </p>
+
+                    </div>
+
+                <% } %>
+
+                <!-- Transfer Bank -->
+                <% if (pesanan.metode_pembayaran === "Transfer Bank") { %>
+
+                    <div class="payment-info">
+
+                        <h4>🏦 Transfer ke Rekening</h4>
+
+                        <p>
+                            Bank BCA<br>
+                            1234567890<br>
+                            a.n Aspana Risol
+                        </p>
+
+                        <% if (!pesanan.bukti_pembayaran) { %>
+
+                            <form
+                                action="/upload-bukti/<%= pesanan.id %>"
+                                method="POST"
+                                enctype="multipart/form-data"
+                            >
+
+                                <input
+                                    type="file"
+                                    name="bukti"
+                                    accept=".jpg,.jpeg,.png"
+                                    required
+                                >
+
+                                <br><br>
+
+                                <button
+                                    type="submit"
+                                    class="btn-primary"
+                                >
+                                    Upload Bukti Pembayaran
+                                </button>
+
+                            </form>
+
+                        <% } %>
+
+                    </div>
+
+                <% } %>
+
+                <!-- QRIS -->
+                <% if (pesanan.metode_pembayaran === "QRIS") { %>
+
+                    <div class="payment-info">
+
+                        <h4>📱 Scan QRIS Berikut</h4>
+
+                        <img
+                            src="/photo/qris.png"
+                            alt="QRIS"
+                            class="qris-image"
+                        >
+
+                        <% if (!pesanan.bukti_pembayaran) { %>
+
+                            <form
+                                action="/upload-bukti/<%= pesanan.id %>"
+                                method="POST"
+                                enctype="multipart/form-data"
+                            >
+
+                                <input
+                                    type="file"
+                                    name="bukti"
+                                    accept=".jpg,.jpeg,.png"
+                                    required
+                                >
+
+                                <br><br>
+
+                                <button
+                                    type="submit"
+                                    class="btn-primary"
+                                >
+                                    Upload Bukti Pembayaran
+                                </button>
+
+                            </form>
+
+                        <% } %>
+
+                    </div>
+
+                <% } %>
+
+            </div>
+
+            <!-- Produk -->
+            <h3 class="section-title">
+                🛍 Produk Yang Dibeli
+            </h3>
+
+            <div class="produk-list">
+
+                <% detail.forEach(item => { %>
+
+                    <div class="produk-detail-card">
+
+                        <h3>
+                            <%= item.nama_produk %>
+                        </h3>
+
+                        <p>
+                            Harga :
+                            Rp <%= Number(item.harga).toLocaleString("id-ID") %>
+                        </p>
+
+                        <p>
+                            Jumlah :
+                            <%= item.jumlah %>
+                        </p>
+
+                        <p>
+                            Subtotal :
+                            Rp <%= Number(item.harga * item.jumlah).toLocaleString("id-ID") %>
+                        </p>
+
+                    </div>
+
+                <% }) %>
+
+            </div>
+
+            <br>
+
+            <a href="/pesanan-saya" class="btn-primary">
+                ← Kembali ke Pesanan Saya
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

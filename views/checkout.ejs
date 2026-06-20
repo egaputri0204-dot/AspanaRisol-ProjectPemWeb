@@ -63,6 +63,17 @@
 
           <input type="hidden" name="cart" id="cartData" />
 
+          <label>Metode Pembayaran</label>
+
+          <select name="metode_pembayaran" required>
+            <option value="">-- Pilih Pembayaran --</option>
+            <option value="COD">COD (Bayar di Tempat)</option>
+            <option value="Transfer Bank">Transfer Bank</option>
+            <option value="QRIS">QRIS</option>
+          </select>
+
+          <br /><br />
+
           <button type="submit" class="btn-primary">Pesan Sekarang!</button>
         </form>
       </div>

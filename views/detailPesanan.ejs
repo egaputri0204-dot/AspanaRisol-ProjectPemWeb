@@ -54,6 +54,72 @@
 
     </p>
 
+    <p>
+        <strong>Metode Pembayaran :</strong>
+        <%= pesanan.metode_pembayaran || '-' %>
+    </p>
+
+    <p>
+        <strong>Status Pembayaran :</strong>
+        
+        <span class="
+        <%= pesanan.status_pembayaran === 'Lunas'
+            ? 'status-selesai'
+            : pesanan.status_pembayaran === 'Menunggu Verifikasi'
+            ? 'status-diproses'
+            : 'status-pending'
+        %>
+        ">
+            <%= pesanan.status_pembayaran %>
+        </span>
+    </p>
+    
+    <p>
+        <strong>Bukti Pembayaran :</strong>
+    </p>
+    
+    <% if (pesanan.bukti_pembayaran) { %>
+        
+    <div class="payment-info">
+        
+        <a
+            href="/bukti-transfer/<%= pesanan.bukti_pembayaran %>"
+            target="_blank"
+        >
+        
+            <img
+                src="/bukti-transfer/<%= pesanan.bukti_pembayaran %>"
+                alt="Bukti Pembayaran"
+                class="bukti-admin"
+            >
+        </a>
+
+        <% if(
+            pesanan.bukti_pembayaran &&
+            pesanan.status_pembayaran !== 'Lunas'
+        ){ %>
+            
+        <br>
+        
+        <a
+            href="/pesanan/verifikasi/<%= pesanan.id %>"
+        class="btn-primary"
+        >
+
+            ✓ Verifikasi Pembayaran
+        </a>
+
+        <% } %>
+    </div>
+    
+    <% } else { %>
+        
+    <p style="color:red;">
+        Belum upload bukti Pembayaran
+    </p>
+    
+    <% } %>
+
 </div>
 
     <div class="detail-header">

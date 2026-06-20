@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Login Admin</title>
+    <title>Login User</title>
     <link rel="stylesheet" href="/css/style.css" />
   </head>
+
   <body>
     <div class="login-section">
       <div class="admin-card login-card">
@@ -11,13 +12,11 @@
           <img src="/photo/logo.png" alt="Logo Aspana" />
         </div>
 
-        <h1 class="admin-title">Admin Panel</h1>
+        <h1 class="admin-title">Login Pelanggan</h1>
 
-        <p class="login-subtitle">
-          Masuk untuk mengelola produk, kategori dan pesanan pelanggan.
-        </p>
+        <p class="login-subtitle">Masuk untuk melakukan pemesanan</p>
 
-        <form action="/login" method="POST" class="admin-form">
+        <form action="/user-login" method="POST" class="admin-form">
           <label>Username</label>
 
           <input
@@ -36,18 +35,21 @@
             required
           />
 
-          <button type="submit" class="btn-primary login-btn">
-            Login Admin
-          </button>
+          <button type="submit" class="btn-primary login-btn">Login</button>
         </form>
 
         <div class="login-footer">
           Belum punya akun?
-          <a href="/register-admin"> Daftar Akun </a>
+          <a href="/register"> Daftar </a>
         </div>
-
-        <div class="login-footer">Aspana Risol Management System</div>
       </div>
     </div>
+
+    <% if (loginRequired) { %>
+    <script>
+        alert("Silakan login terlebih dahulu");
+    </script>
+    <% } %>
+
   </body>
 </html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pesanan Saya</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="admin-section">
+
+    <div class="admin-card">
+
+        <h2 class="admin-title">
+            📦 Pesanan Saya
+        </h2>
+
+        <div class="pesanan-list">
+
+            <% pesanan.forEach(item => { %>
+
+            <div class="pesanan-card">
+
+                <div class="pesanan-top">
+
+                    <h3>
+                        📦 Pesanan #<%= item.id %>
+                    </h3>
+
+                    <span class="
+                        status
+                        <%= item.status === 'Pending'
+                            ? 'pending'
+                            : item.status === 'Diproses'
+                            ? 'proses'
+                            : 'selesai'
+                        %>
+                    ">
+                        <%= item.status %>
+                    </span>
+
+                </div>
+
+                <div class="pesanan-info">
+
+                    <div>
+                        <small>Tanggal</small>
+
+                        <p>
+                            <%= new Date(item.tanggal).toLocaleString("id-ID", {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit"
+                            }) %>
+                        </p>
+                    </div>
+
+                    <div>
+                        <small>Total</small>
+
+                        <p class="harga">
+                            Rp <%= Number(item.total).toLocaleString("id-ID") %>
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="pesanan-action">
+
+                    <a
+                        href="/pesanan-detail/<%= item.id %>"
+                        class="btn-detail"
+                    >
+                        Lihat Detail
+                    </a>
+
+                </div>
+
+            </div>
+
+            <% }) %>
+
+        </div>
+
+        <br>
+
+        <a href="/" class="btn-primary">
+            ← Kembali ke Beranda
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

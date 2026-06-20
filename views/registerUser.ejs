@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Register User</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+
+  <body>
+    <div class="login-section">
+      <div class="admin-card login-card">
+        <div class="login-logo">
+          <img src="/photo/logo.png" />
+        </div>
+
+        <h1 class="admin-title">Register Pelanggan</h1>
+
+        <p class="login-subtitle">Buat akun pelanggan baru</p>
+
+        <form action="/register" method="POST" class="admin-form">
+          <label>Username</label>
+
+          <input
+            type="text"
+            name="username"
+            placeholder="Masukkan username"
+            required
+          />
+
+          <label>Email</label>
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Masukkan email"
+            required
+          />
+
+          <label>Password</label>
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Masukkan password"
+            required
+          />
+
+          <label>Konfirmasi Password</label>
+
+          <input
+            type="password"
+            name="confirm_password"
+            placeholder="Ulangi password"
+            required
+          />
+
+          <button type="submit" class="btn-primary">Daftar</button>
+        </form>
+
+        <div class="login-footer">
+          Sudah punya akun?
+          <a href="/user-login"> Login </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

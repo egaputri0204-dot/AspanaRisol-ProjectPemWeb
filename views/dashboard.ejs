@@ -41,26 +41,36 @@
       <div class="dashboard-cards">
         <div class="dashboard-card">
           <h3><%= statistik.totalKategori %></h3>
-          <p>Total Kategori</p>
+          <p>📂 Total Kategori</p>
         </div>
 
         <div class="dashboard-card">
           <h3><%= statistik.totalProduk %></h3>
-          <p>Total Produk</p>
+          <p>🍽 Total Produk</p>
         </div>
 
         <div class="dashboard-card">
           <h3><%= statistik.totalPesanan %></h3>
-          <p>Total Pesanan</p>
+          <p>📦 Total Pesanan</p>
+        </div>
+
+        <div class="dashboard-card">
+          <h3><%= statistik.totalLunas %></h3>
+          <p>✅ Sudah Lunas</p>
+        </div>
+
+        <div class="dashboard-card">
+          <h3><%= statistik.totalBelumBayar %></h3>
+          <p>⏳ Belum Bayar</p>
         </div>
       </div>
 
-      <div class="summary-item">
-        <h3>
-          💰 Rp <%= Number(statistik.totalPendapatan).toLocaleString("id-ID") %>
-        </h3>
-        <p>Total Pendapatan</p>
-      </div>
+    <div class="summary-item">
+      <h3>
+        💰 Rp <%= Number(statistik.totalPendapatan).toLocaleString("id-ID") %>
+      </h3>
+
+      <p>Total Pendapatan Dari Pesanan Lunas</p>
     </div>
 
     <script>

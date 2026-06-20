@@ -3,14 +3,20 @@ const router = express.Router();
 
 const db = require("../config/db");
 
+const userAuth = require("../middleware/userAuth");
+
 // Halaman Checkout
-router.get("/", (req, res) => {
+router.get("/", userAuth, (req, res) => {
   res.render("checkout");
 });
 
 // Simpan Checkout
-router.post("/", (req, res) => {
-  const { nama_pembeli, no_hp, alamat, cart } = req.body;
+router.post("/", userAuth, (req, res) => {
+  const { nama_pembeli, no_hp, alamat, cart, metode_pembayaran } = req.body;
+  const userId = req.session.user.id;
+
+  console.log("User Login:");
+  console.log(req.session.user);
 
   const cartItems = JSON.parse(cart);
 
@@ -27,9 +33,9 @@ router.post("/", (req, res) => {
 
   db.query(
     `INSERT INTO pesanan
-    (nama_pembeli, no_hp, alamat, total, status)
-    VALUES (?, ?, ?, ?, ?)`,
-    [nama_pembeli, no_hp, alamat, total, "Pending"],
+    (user_id, nama_pembeli, no_hp, alamat, total, status, metode_pembayaran)
+    VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [userId, nama_pembeli, no_hp, alamat, total, "Pending", metode_pembayaran],
     (err, result) => {
       if (err) {
         return res.send(err);
