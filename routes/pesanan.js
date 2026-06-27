@@ -5,7 +5,27 @@ const cekLogin = require("../middleware/auth");
 const db = require("../config/db");
 
 router.get("/", cekLogin, (req, res) => {
-  db.query("SELECT * FROM pesanan ORDER BY id DESC", (err, result) => {
+  const status = req.query.status || "";
+
+  let sql = `
+    SELECT *
+    FROM pesanan
+  `;
+
+  let params = [];
+
+  if (status) {
+    sql += `
+      WHERE status_pembayaran = ?
+    `;
+    params.push(status);
+  }
+
+  sql += `
+    ORDER BY id DESC
+  `;
+
+  db.query(sql, params, (err, result) => {
     if (err) {
       return res.send(err);
     }
@@ -21,6 +41,7 @@ router.get("/", cekLogin, (req, res) => {
       pesanan: result,
       totalPesanan,
       totalPendapatan,
+      status,
     });
   });
 });

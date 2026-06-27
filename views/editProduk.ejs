@@ -64,7 +64,7 @@
         <label>Gambar Saat Ini</label>
 
         <img
-            src="/uploads/<%= produk.gambar %>"
+            src="<%= produk.gambar && (produk.gambar.startsWith('data:') || produk.gambar.startsWith('http')) ? produk.gambar : '/uploads/' + produk.gambar %>"
             class="preview-image"
         >
 

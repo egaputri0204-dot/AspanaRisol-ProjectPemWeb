@@ -79,7 +79,7 @@
                         <h4>📄 Bukti Pembayaran</h4>
 
                         <img
-                            src="/bukti-transfer/<%= pesanan.bukti_pembayaran %>"
+                            src="<%= pesanan.bukti_pembayaran && (pesanan.bukti_pembayaran.startsWith('data:') || pesanan.bukti_pembayaran.startsWith('http')) ? pesanan.bukti_pembayaran : '/bukti-transfer/' + pesanan.bukti_pembayaran %>"
                             alt="Bukti Pembayaran"
                             class="qris-image"
                         >

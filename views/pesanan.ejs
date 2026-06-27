@@ -35,6 +35,38 @@
 
     <br><br>
 
+    <form method="GET" action="/pesanan" class="filter-form">
+        
+        <select name="status">
+            
+            <option value="">
+                Semua Pembayaran
+            </option>
+            
+            <option
+                value="Belum Bayar"
+                <%= status === 'Belum Bayar' ? 'selected' : '' %>
+            >
+                Belum Bayar
+            </option>
+
+            <option
+                value="Lunas"
+                <%= status === 'Lunas' ? 'selected' : '' %>
+            >
+                Lunas
+            </option>
+
+        </select>
+
+        <button type="submit" class="btn-detail">
+            Filter
+        </button>
+
+    </form>
+
+    <br>
+
     <div class="admin-table-wrapper">
 
         <table class="admin-table">
@@ -47,6 +79,7 @@
                     <th>Total</th>
                     <th>Tanggal</th>
                     <th>Status</th>
+                    <th>Pembayaran</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -95,6 +128,19 @@
                         >
                             <%= item.status %>
                         </span>
+                    </td>
+
+                    <td>
+                        
+                        <span class="
+                            <%= item.status_pembayaran === 'Lunas'
+                                ? 'status-selesai'
+                                : 'status-pending'
+                            %>
+                        ">
+                            <%= item.status_pembayaran %>
+                        </span>
+                    
                     </td>
 
                     <td class="action-buttons">

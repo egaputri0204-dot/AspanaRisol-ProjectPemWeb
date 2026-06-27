@@ -51,7 +51,7 @@
 
             <td>
                 <img
-                    src="/uploads/<%= item.gambar %>"
+                    src="<%= item.gambar && (item.gambar.startsWith('data:') || item.gambar.startsWith('http')) ? item.gambar : '/uploads/' + item.gambar %>"
                     width="80"
                     class="preview-image"
                 >

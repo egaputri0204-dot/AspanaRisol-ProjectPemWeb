@@ -1,9 +1,9 @@
+// app.module.js - exports the configured Express app
 const express = require("express");
 const path = require("path");
 const session = require("express-session");
 const db = require("./config/db");
 
-// Routes
 const homeRoutes = require("./routes/home");
 const kategoriRoutes = require("./routes/kategori");
 const produkRoutes = require("./routes/produk");
@@ -14,10 +14,6 @@ const paymentRoutes = require("./routes/payment");
 
 const app = express();
 
-// =======================
-// KONFIGURASI DASAR
-// =======================
-
 app.set("trust proxy", 1);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -25,42 +21,15 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// =======================
-// SESSION — pilih store berdasarkan environment
-// =======================
-
+// Session
 let sessionStore;
-
-// Deteksi environment
-const isVercel = !!process.env.VERCEL;
-const isProduction = process.env.NODE_ENV === "production" || isVercel;
-
-if (isVercel || !process.env.DB_HOST || process.env.DB_HOST === "localhost") {
-  // Di Vercel atau tanpa DB cloud, pakai MemoryStore
-  console.log("Session store: MemoryStore (no cloud database configured)");
-} else {
-  // Coba inisialisasi MySQL session store
-  try {
-    const MySQLStore = require("express-mysql-session")(session);
-    const pool = db.getPool();
-    sessionStore = new MySQLStore(
-      {
-        createDatabaseTable: true,
-        schema: {
-          tableName: "session",
-          columnNames: {
-            session_id: "session_id",
-            expires: "expires",
-            data: "data",
-          },
-        },
-      },
-      pool,
-    );
-    console.log("Session store: MySQL");
-  } catch (err) {
-    console.log("Session store: MemoryStore (MySQL not available: " + err.message + ")");
-  }
+try {
+  const MySQLStore = require("express-mysql-session")(session);
+  const pool = db.getPool();
+  sessionStore = new MySQLStore({ createDatabaseTable: true }, pool);
+  console.log("Session store: MySQL");
+} catch (err) {
+  console.log("Session store: MemoryStore (" + err.message + ")");
 }
 
 app.use(
@@ -83,14 +52,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// =======================
-// STATIC FILES
-// =======================
 app.use(express.static(path.join(__dirname, "public")));
 
-// =======================
-// ROUTES
-// =======================
 app.use("/", homeRoutes);
 app.use("/kategori", kategoriRoutes);
 app.use("/produk", produkRoutes);
@@ -99,7 +62,6 @@ app.use("/checkout", checkoutRoutes);
 app.use("/", authRoutes);
 app.use("/", paymentRoutes);
 
-// Dashboard
 app.get("/dashboard", (req, res) => {
   if (!req.session.admin) return res.redirect("/login");
   db.query(
@@ -124,27 +86,15 @@ app.get("/test-db", (req, res) => {
   });
 });
 
-// =======================
-// HANDLER 404 & ERROR
-// =======================
+// 404 handler
 app.use((req, res) => {
   res.status(404).send("Halaman tidak ditemukan: " + req.originalUrl);
 });
 
+// Error handler
 app.use((err, req, res, next) => {
   console.error("Server Error:", err);
   res.status(500).send("Internal Server Error: " + err.message);
 });
-
-// =======================
-// EXPORT
-// =======================
-if (require.main === module) {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log("Server running on port " + PORT);
-    console.log("Mode:", process.env.NODE_ENV || "development");
-  });
-}
 
 module.exports = app;

@@ -1,23 +1,9 @@
-const multer = require("multer");
 const express = require("express");
 const router = express.Router();
 
 const cekLogin = require("../middleware/auth");
 const db = require("../config/db");
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/uploads");
-  },
-
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-
-const upload = multer({
-  storage: storage,
-});
+const { upload, getFileUrl } = require("../config/upload");
 
 // Data Produk
 router.get("/", cekLogin, (req, res) => {
@@ -56,7 +42,7 @@ router.get("/tambah", cekLogin, (req, res) => {
 router.post("/tambah", cekLogin, upload.single("gambar"), (req, res) => {
   const { nama_produk, deskripsi, harga, kategori_id } = req.body;
 
-  const gambar = req.file ? req.file.filename : null;
+  const gambar = getFileUrl(req.file);
 
   db.query(
     `INSERT INTO produk
@@ -109,7 +95,7 @@ router.post("/edit/:id", cekLogin, upload.single("gambar"), (req, res) => {
     let gambar = result[0].gambar;
 
     if (req.file) {
-      gambar = req.file.filename;
+      gambar = getFileUrl(req.file);
     }
 
     db.query(

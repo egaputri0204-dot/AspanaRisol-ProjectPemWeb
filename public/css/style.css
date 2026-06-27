@@ -1481,6 +1481,18 @@ tfoot th {
   margin: 10px 0;
 }
 
+.filter-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-form select {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
 /* Media Queries */
 /* laptop */
 @media (max-width: 1366px) {

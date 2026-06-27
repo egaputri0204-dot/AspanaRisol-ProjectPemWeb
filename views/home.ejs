@@ -152,7 +152,7 @@
             <div class="item" data-id="<%= data.id %>">
 
                 <img
-                    src="/uploads/<%= data.gambar %>"
+                    src="<%= data.gambar && data.gambar.startsWith('data:') ? data.gambar : '/uploads/' + data.gambar %>"
                     alt="<%= data.nama_produk %>"
                     class="item-img"
                 >
