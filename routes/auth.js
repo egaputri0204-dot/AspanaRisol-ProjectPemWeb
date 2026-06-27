@@ -3,6 +3,7 @@ const router = express.Router();
 
 const db = require("../config/db");
 const userAuth = require("../middleware/userAuth");
+const { verifyPassword } = require("../utils/password");
 
 // Register Admin
 router.get("/register-admin", (req, res) => {
@@ -63,31 +64,38 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
-  db.query(
-    "SELECT * FROM admin WHERE username=? AND password=?",
-    [username, password],
-    (err, result) => {
-      if (err) {
-        return res.send(err);
-      }
+  db.query("SELECT * FROM admin WHERE username=?", [username], async (err, result) => {
+    if (err) {
+      return res.send(err);
+    }
 
-      if (result.length > 0) {
-        req.session.admin = result[0];
-
-        return res.redirect("/dashboard");
-      }
-
-      res.send(`
+    if (result.length === 0) {
+      return res.send(`
         <script>
           alert('Username atau Password Salah');
           window.location='/login';
         </script>
       `);
-    },
-  );
+    }
+
+    const admin = result[0];
+    const isValid = await verifyPassword(password, admin.password);
+
+    if (!isValid) {
+      return res.send(`
+        <script>
+          alert('Username atau Password Salah');
+          window.location='/login';
+        </script>
+      `);
+    }
+
+    req.session.admin = admin;
+    return res.redirect("/dashboard");
+  });
 });
 
 // Logout Admin
@@ -169,10 +177,10 @@ router.post("/user-login", (req, res) => {
     `
     SELECT *
     FROM users
-    WHERE username=? AND password=?
+    WHERE username=?
     `,
-    [username, password],
-    (err, result) => {
+    [username],
+    async (err, result) => {
       if (err) {
         return res.send(err);
       }
@@ -186,8 +194,19 @@ router.post("/user-login", (req, res) => {
         `);
       }
 
-      req.session.user = result[0];
+      const user = result[0];
+      const isValid = await verifyPassword(password, user.password);
 
+      if (!isValid) {
+        return res.send(`
+          <script>
+          alert('Username atau Password salah');
+          window.location='/user-login';
+          </script>
+        `);
+      }
+
+      req.session.user = user;
       res.redirect("/");
     },
   );
