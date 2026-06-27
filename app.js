@@ -21,6 +21,7 @@ const app = express();
 app.set("trust proxy", 1);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+app.set("port", process.env.PORT || 5000);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -59,7 +60,9 @@ if (isVercel || !process.env.DB_HOST || process.env.DB_HOST === "localhost") {
     );
     console.log("Session store: MySQL");
   } catch (err) {
-    console.log("Session store: MemoryStore (MySQL not available: " + err.message + ")");
+    console.log(
+      "Session store: MemoryStore (MySQL not available: " + err.message + ")",
+    );
   }
 }
 
@@ -112,7 +115,10 @@ app.get("/dashboard", (req, res) => {
       (SELECT COALESCE(SUM(total),0) FROM pesanan WHERE status_pembayaran='Lunas') AS totalPendapatan`,
     (err, result) => {
       if (err) return res.send(err);
-      res.render("dashboard", { admin: req.session.admin, statistik: result[0] });
+      res.render("dashboard", {
+        admin: req.session.admin,
+        statistik: result[0],
+      });
     },
   );
 });
@@ -140,8 +146,8 @@ app.use((err, req, res, next) => {
 // EXPORT
 // =======================
 if (require.main === module) {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
+  const PORT = app.get("port");
+  app.listen(PORT, "0.0.0.0", () => {
     console.log("Server running on port " + PORT);
     console.log("Mode:", process.env.NODE_ENV || "development");
   });

@@ -4,6 +4,17 @@ const router = express.Router();
 const db = require("../config/db");
 
 router.get("/", (req, res) => {
+  const isVercel = !!process.env.VERCEL;
+  const useDb = !isVercel && process.env.DB_HOST && process.env.DB_NAME;
+
+  if (!useDb) {
+    return res.render("home", {
+      produk: [],
+      user: req.session.user || null,
+      message: null,
+    });
+  }
+
   const sql = `
     SELECT produk.*, kategori.nama_kategori
     FROM produk
@@ -14,12 +25,18 @@ router.get("/", (req, res) => {
 
   db.query(sql, (err, result) => {
     if (err) {
-      return res.send(err);
+      console.error("Home route DB error:", err.message);
+      return res.render("home", {
+        produk: [],
+        user: req.session.user || null,
+        message: "Database belum tersedia.",
+      });
     }
 
     res.render("home", {
-      produk: result,
+      produk: result || [],
       user: req.session.user || null,
+      message: null,
     });
   });
 });

@@ -6,6 +6,12 @@ const db = require("../config/db");
 
 // Tampil data kategori
 router.get("/", cekLogin, (req, res) => {
+  if (!process.env.DB_HOST || !process.env.DB_NAME) {
+    return res.render("kategori", {
+      kategori: [],
+    });
+  }
+
   db.query("SELECT * FROM kategori", (err, result) => {
     if (err) {
       return res.send(err);

@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: aspana-risol-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node app.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        value: aspana-risol-secret

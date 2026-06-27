@@ -3,12 +3,30 @@ const mysql = require("mysql2");
 let pool = null;
 let dbStatus = "disconnected";
 
+function hasDbConfig() {
+  return !!(process.env.DB_HOST && process.env.DB_USER && process.env.DB_NAME);
+}
+
 function getPool() {
   if (!pool) {
-    const host = process.env.DB_HOST || "localhost";
-    const isLocal = host === "localhost" || host === "127.0.0.1";
+    const isVercel = !!process.env.VERCEL;
+
+    if (isVercel && !hasDbConfig()) {
+      dbStatus = "unconfigured";
+      pool = {
+        query: (sql, params, cb) => {
+          const err = new Error(
+            "Database tidak dikonfigurasi untuk environment ini",
+          );
+          if (typeof cb === "function") return cb(err);
+          if (typeof params === "function") return params(err);
+        },
+      };
+      return pool;
+    }
 
     try {
+      const host = process.env.DB_HOST || "localhost";
       const config = {
         host: host,
         user: process.env.DB_USER || "root",
@@ -16,40 +34,23 @@ function getPool() {
         database: process.env.DB_NAME || "aspanarisol",
         port: parseInt(process.env.DB_PORT || "3306"),
         waitForConnections: true,
-        connectionLimit: 5,
+        connectionLimit: 2,
         queueLimit: 0,
         enableKeepAlive: true,
         keepAliveInitialDelay: 0,
-        connectTimeout: 5000,
+        connectTimeout: 800,
       };
 
       pool = mysql.createPool(config);
-
-      // Test koneksi (non-blocking)
-      pool.query("SELECT 1 AS test", (err) => {
-        if (err) {
-          console.error("Database connection failed:", err.message);
-          dbStatus = "error: " + err.message;
-        } else {
-          console.log("Database pool created & connected");
-          dbStatus = "connected";
-        }
-      });
-
-      // Fallback jika gagal
-      setTimeout(() => {
-        if (dbStatus === "disconnected") {
-          console.log("Database connection timeout - using fallback");
-          dbStatus = "timeout";
-        }
-      }, 6000).unref();
+      dbStatus = "connected";
     } catch (err) {
       console.error("Failed to create database pool:", err.message);
       dbStatus = "error: " + err.message;
       pool = {
         query: (sql, params, cb) => {
-          if (typeof cb === "function") cb(new Error("Database not available"));
-          else if (typeof params === "function") params(new Error("Database not available"));
+          const error = new Error("Database not available");
+          if (typeof cb === "function") return cb(error);
+          if (typeof params === "function") return params(error);
         },
       };
     }
@@ -57,7 +58,6 @@ function getPool() {
   return pool;
 }
 
-// Helper untuk cek status DB
 function isConnected() {
   return dbStatus === "connected";
 }
