@@ -7,6 +7,10 @@ function hasDbConfig() {
   return !!(process.env.DB_HOST && process.env.DB_USER && process.env.DB_NAME);
 }
 
+function canUseDatabase() {
+  return !process.env.VERCEL || hasDbConfig();
+}
+
 function getPool() {
   if (!pool) {
     const isVercel = !!process.env.VERCEL;
@@ -63,6 +67,7 @@ function isConnected() {
 }
 
 module.exports = {
+  canUseDatabase,
   query: (sql, params, callback) => {
     if (!isConnected() && dbStatus !== "disconnected") {
       const err = new Error("Database tidak tersedia: " + dbStatus);
