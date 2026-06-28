@@ -67,35 +67,39 @@ router.get("/login", (req, res) => {
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
-  db.query("SELECT * FROM admin WHERE username=?", [username], async (err, result) => {
-    if (err) {
-      return res.send(err);
-    }
+  db.query(
+    "SELECT * FROM admin WHERE username=?",
+    [username],
+    async (err, result) => {
+      if (err) {
+        return res.send(err);
+      }
 
-    if (result.length === 0) {
-      return res.send(`
+      if (result.length === 0) {
+        return res.send(`
         <script>
           alert('Username atau Password Salah');
           window.location='/login';
         </script>
       `);
-    }
+      }
 
-    const admin = result[0];
-    const isValid = await verifyPassword(password, admin.password);
+      const admin = result[0];
+      const isValid = await verifyPassword(password, admin.password);
 
-    if (!isValid) {
-      return res.send(`
+      if (!isValid) {
+        return res.send(`
         <script>
           alert('Username atau Password Salah');
           window.location='/login';
         </script>
       `);
-    }
+      }
 
-    req.session.admin = admin;
-    return res.redirect("/dashboard");
-  });
+      req.session.admin = admin;
+      return res.redirect("/dashboard");
+    },
+  );
 });
 
 // Logout Admin

@@ -18,7 +18,9 @@ const app = express();
 // =======================
 // KONFIGURASI DASAR
 // =======================
-
+app.get("/ping", (req, res) => {
+  res.send("pong");
+});
 app.set("trust proxy", 1);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");

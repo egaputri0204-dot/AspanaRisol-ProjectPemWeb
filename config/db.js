@@ -32,18 +32,23 @@ function getPool() {
     try {
       const host = process.env.DB_HOST || "localhost";
       const config = {
-        host: host,
+        host,
         user: process.env.DB_USER || "root",
         password: process.env.DB_PASSWORD || "",
         database: process.env.DB_NAME || "aspanarisol",
-        port: parseInt(process.env.DB_PORT || "3306"),
+        port: Number(process.env.DB_PORT || 3306),
         waitForConnections: true,
-        connectionLimit: 2,
+        connectionLimit: 5,
         queueLimit: 0,
-        enableKeepAlive: true,
-        keepAliveInitialDelay: 0,
-        connectTimeout: 800,
+        connectTimeout: 10000,
       };
+
+      if (host.includes("tidbcloud.com")) {
+        config.ssl = {
+          minVersion: "TLSv1.2",
+          rejectUnauthorized: false,
+        };
+      }
 
       pool = mysql.createPool(config);
       dbStatus = "connected";

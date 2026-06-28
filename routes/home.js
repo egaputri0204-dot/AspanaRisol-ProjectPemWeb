@@ -5,7 +5,7 @@ const db = require("../config/db");
 
 router.get("/", (req, res) => {
   const isVercel = !!process.env.VERCEL;
-  const useDb = !isVercel && process.env.DB_HOST && process.env.DB_NAME;
+  const useDb = db.canUseDatabase();
 
   if (!useDb) {
     return res.render("home", {

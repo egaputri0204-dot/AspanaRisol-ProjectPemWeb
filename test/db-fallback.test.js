@@ -1,14 +1,14 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const db = require('../config/db');
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const db = require("../config/db");
 
-test('reports that database is unavailable on Vercel without DB config', () => {
+test("reports that database is unavailable on Vercel without DB config", () => {
   const previousVercel = process.env.VERCEL;
   const previousHost = process.env.DB_HOST;
   const previousUser = process.env.DB_USER;
   const previousName = process.env.DB_NAME;
 
-  process.env.VERCEL = '1';
+  process.env.VERCEL = "1";
   delete process.env.DB_HOST;
   delete process.env.DB_USER;
   delete process.env.DB_NAME;
