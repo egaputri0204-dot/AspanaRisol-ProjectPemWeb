@@ -62,12 +62,21 @@
         </select>
 
         <label>Gambar Saat Ini</label>
+        
+        <% if (produk.gambar) { %>
+            
+            <img
+                src="<%= produk.gambar.startsWith('http') ? produk.gambar : '/uploads/' + produk.gambar %>"
+                class="preview-image"
+                width="180"
+            >
 
-        <img
-            src="<%= item.gambar %>">
-            class="preview-image"
-        >
+        <% } else { %>
 
+            <p>Belum ada gambar.</p>
+
+        <% } %>
+        
         <label>Ganti Gambar</label>
 
         <input
