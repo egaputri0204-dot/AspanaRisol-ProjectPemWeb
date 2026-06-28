@@ -3,8 +3,7 @@ const router = express.Router();
 
 const db = require("../config/db");
 const userAuth = require("../middleware/userAuth");
-const { upload, getFileUrl } = require("../config/upload");
-
+const { upload } = require("../config/upload");
 // Upload Bukti Transfer
 router.post(
   "/upload-bukti/:id",
@@ -17,7 +16,7 @@ router.post(
       return res.send("File tidak ditemukan");
     }
 
-    const bukti = getFileUrl(req.file);
+    const bukti = req.file.path;
 
     db.query(
       `UPDATE pesanan

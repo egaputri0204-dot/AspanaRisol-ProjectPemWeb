@@ -83,14 +83,14 @@
     <div class="payment-info">
         
         <a
-            href="<%= pesanan.bukti_pembayaran && (pesanan.bukti_pembayaran.startsWith('data:') || pesanan.bukti_pembayaran.startsWith('http')) ? pesanan.bukti_pembayaran : '/bukti-transfer/' + pesanan.bukti_pembayaran %>"
+            href="<%= pesanan.bukti_pembayaran %>"
             target="_blank"
         >
         
             <img
-                src="<%= pesanan.bukti_pembayaran && (pesanan.bukti_pembayaran.startsWith('data:') || pesanan.bukti_pembayaran.startsWith('http')) ? pesanan.bukti_pembayaran : '/bukti-transfer/' + pesanan.bukti_pembayaran %>"
+                src="<%= pesanan.bukti_pembayaran %>"
                 alt="Bukti Pembayaran"
-                class="bukti-admin"
+                class="bukti-admin">
             >
         </a>
 
