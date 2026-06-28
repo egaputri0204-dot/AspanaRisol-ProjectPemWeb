@@ -97,7 +97,14 @@ router.post("/login", async (req, res) => {
       }
 
       req.session.admin = admin;
-      return res.redirect("/dashboard");
+
+      req.session.save((err) => {
+        if (err) {
+          console.error("Session save error:", err);
+          return res.send("Session gagal disimpan");
+        }
+        return res.redirect("/dashboard");
+      });
     },
   );
 });
@@ -211,7 +218,15 @@ router.post("/user-login", (req, res) => {
       }
 
       req.session.user = user;
-      res.redirect("/");
+
+      req.session.save((err) => {
+        if (err) {
+          console.error("Session save error:", err);
+          return res.send("Session gagal disimpan");
+        }
+
+        res.redirect("/");
+      });
     },
   );
 });

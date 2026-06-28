@@ -39,9 +39,9 @@ let sessionStore;
 const isVercel = !!process.env.VERCEL;
 const isProduction = process.env.NODE_ENV === "production" || isVercel;
 
-if (isVercel || !process.env.DB_HOST || process.env.DB_HOST === "localhost") {
-  // Di Vercel atau tanpa DB cloud, pakai MemoryStore
-  console.log("Session store: MemoryStore (no cloud database configured)");
+if (!process.env.DB_HOST || process.env.DB_HOST === "localhost") {
+  // Hanya localhost yang memakai MemoryStore
+  console.log("Session store: MemoryStore (localhost)");
 } else {
   // Coba inisialisasi MySQL session store
   try {
@@ -76,10 +76,10 @@ app.use(
     saveUninitialized: false,
     store: sessionStore,
     cookie: {
-      secure: process.env.NODE_ENV === "production",
+      secure: isProduction,
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
       sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000,
     },
   }),
 );
@@ -130,6 +130,14 @@ app.get("/test-db", (req, res) => {
   db.query("SELECT 1 AS test", (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json({ status: "ok", db: "connected", result });
+  });
+});
+app.get("/test-session", (req, res) => {
+  res.json({
+    sessionID: req.sessionID,
+    user: req.session.user || null,
+    admin: req.session.admin || null,
+    session: req.session,
   });
 });
 
