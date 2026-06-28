@@ -52,7 +52,9 @@
             <td>
                 <% if(item.gambar){ %>
                 <img
-                    src="<%= item.gambar %>"
+                    src="<%= item.gambar.startsWith('http')
+                        ? item.gambar
+                        : '/uploads/' + item.gambar %>"
                      width="80"
                      class="preview-image"
                 >

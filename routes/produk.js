@@ -42,8 +42,11 @@ router.get("/tambah", cekLogin, (req, res) => {
 router.post("/tambah", cekLogin, upload.single("gambar"), (req, res) => {
   const { nama_produk, deskripsi, harga, kategori_id } = req.body;
 
-  const gambar = req.file ? req.file.path : null;
+  let gambar = null;
 
+  if (req.file) {
+    gambar = req.file.path || req.file.secure_url;
+  }
   db.query(
     `INSERT INTO produk
       (nama_produk, deskripsi, harga, gambar, kategori_id)

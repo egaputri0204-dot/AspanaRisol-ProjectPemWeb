@@ -152,11 +152,25 @@
 
             <div class="item" data-id="<%= data.id %>">
 
-                <img
-                    src="<%= item.gambar %>">
-                    alt="<%= data.nama_produk %>"
-                    class="item-img"
-                >
+                <% if (data.gambar) { %>
+
+    <img
+        src="<%= data.gambar.startsWith('http')
+            ? data.gambar
+            : '/uploads/' + data.gambar %>"
+        alt="<%= data.nama_produk %>"
+        class="item-img"
+    >
+
+<% } else { %>
+
+    <img
+        src="/photo/no-image.png"
+        alt="No Image"
+        class="item-img"
+    >
+
+<% } %>
 
                 <h3 class="item-title">
                     <%= data.nama_produk %>
