@@ -25,14 +25,23 @@
                         Pesanan #<%= pesanan.id %>
                     </h3>
 
-                    <span class="
-                        status
-                        <%= pesanan.status === 'Pending'
-                        ? 'pending'
-                        : pesanan.status === 'Diproses'
-                        ? 'proses'
-                        : 'selesai' %>
-                    ">
+                    <%
+                    let statusClass = "pending";
+
+                    if (pesanan.status === "Diproses") {
+                        statusClass = "proses";
+                    }
+
+                    if (pesanan.status === "Selesai") {
+                        statusClass = "selesai";
+                    }
+
+                    if (pesanan.status === "Dibatalkan") {
+                        statusClass = "dibatalkan";
+                    }
+                    %>
+
+                    <span class="status <%= statusClass %>">
                         <%= pesanan.status %>
                     </span>
 
@@ -72,6 +81,40 @@
                     <%= pesanan.metode_pembayaran %>
                 </p>
 
+                <% if (pesanan.status === "Dibatalkan") { %>
+
+                <div class="payment-info">
+                    <p style="color:red;font-weight:bold;">
+                        Pesanan ini telah dibatalkan sehingga pembayaran tidak dapat dilakukan.
+                    </p>
+                </div>
+
+                <% } %>
+
+                <% if (
+                    pesanan.status === "Pending" &&
+                    pesanan.status_pembayaran === "Belum Bayar"
+                ) { %>
+                    
+                    <form
+                        action="/pesanan/batalkan-pesanan/<%= pesanan.id %>"
+                        method="POST"
+                        onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')"
+                    >
+
+                        <button
+                            type="submit"
+                            class="btn-danger"
+                        >
+                            ❌ Batalkan Pesanan
+                        </button>
+
+                    </form>
+
+                    <br>
+
+                <% } %>
+
                 <!-- Bukti Pembayaran -->
                 <% if (pesanan.bukti_pembayaran) { %>
 
@@ -94,7 +137,10 @@
                 <% } %>
 
                 <!-- Transfer Bank -->
-                <% if (pesanan.metode_pembayaran === "Transfer Bank") { %>
+                <% if (
+                    pesanan.metode_pembayaran === "Transfer Bank" &&
+                    pesanan.status !== "Dibatalkan"
+                ){ %>
 
                     <div class="payment-info">
 
@@ -139,8 +185,10 @@
                 <% } %>
 
                 <!-- QRIS -->
-                <% if (pesanan.metode_pembayaran === "QRIS") { %>
-
+                <% if (
+                    pesanan.metode_pembayaran === "QRIS" &&
+                    pesanan.status !== "Dibatalkan"
+                ){ %>
                     <div class="payment-info">
 
                         <h4>📱 Scan QRIS Berikut</h4>

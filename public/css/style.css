@@ -931,6 +931,14 @@ tfoot th {
   font-weight: bold;
 }
 
+.status-dibatalkan {
+  background: #ffe5e5;
+  color: #c62828;
+  font-weight: bold;
+  padding: 8px 14px;
+  border-radius: 20px;
+}
+
 .btn-edit {
   background: #704819;
   color: white;

@@ -96,6 +96,9 @@ router.get("/status/:id", cekLogin, (req, res) => {
     if (result.length === 0) {
       return res.send("Data tidak ditemukan");
     }
+    if (result[0].status === "Dibatalkan") {
+      return res.send("Pesanan sudah dibatalkan dan tidak dapat diubah.");
+    }
 
     let statusBaru = "Pending";
 
@@ -123,19 +126,54 @@ router.get("/status/:id", cekLogin, (req, res) => {
 router.get("/verifikasi/:id", cekLogin, (req, res) => {
   const id = req.params.id;
 
+  db.query("SELECT status FROM pesanan WHERE id = ?", [id], (err, result) => {
+    if (err) return res.send(err);
+
+    if (result.length === 0) {
+      return res.send("Data tidak ditemukan");
+    }
+
+    if (result[0].status === "Dibatalkan") {
+      return res.send("Pesanan sudah dibatalkan dan tidak bisa diverifikasi.");
+    }
+
+    db.query(
+      `
+        UPDATE pesanan
+        SET status_pembayaran='Lunas'
+        WHERE id=?
+        `,
+      [id],
+      (err) => {
+        if (err) return res.send(err);
+
+        res.redirect("/pesanan/detail/" + id);
+      },
+    );
+  });
+});
+
+// Batalkan Pesanan oleh User
+router.post("/batalkan-pesanan/:id", (req, res) => {
+  const id = req.params.id;
+
   db.query(
     `
-    UPDATE pesanan
-    SET status_pembayaran='Lunas'
-    WHERE id=?
-    `,
+  UPDATE pesanan
+  SET
+      status = 'Dibatalkan',
+      status_pembayaran = 'Dibatalkan'
+  WHERE id = ?
+    AND status = 'Pending'
+    AND status_pembayaran = 'Belum Bayar'
+  `,
     [id],
     (err) => {
       if (err) {
         return res.send(err);
       }
 
-      res.redirect("/pesanan/detail/" + id);
+      res.redirect("/pesanan-saya");
     },
   );
 });

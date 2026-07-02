@@ -27,17 +27,25 @@
                         📦 Pesanan #<%= item.id %>
                     </h3>
 
-                    <span class="
-                        status
-                        <%= item.status === 'Pending'
-                            ? 'pending'
-                            : item.status === 'Diproses'
-                            ? 'proses'
-                            : 'selesai'
-                        %>
-                    ">
-                        <%= item.status %>
-                    </span>
+                    <%
+                    let statusClass = "pending";
+
+                    if (item.status === "Diproses") {
+                        statusClass = "proses";
+                    }
+
+                    if (item.status === "Selesai") {
+                        statusClass = "selesai";
+                    }
+
+                    if (item.status === "Dibatalkan") {
+                        statusClass = "dibatalkan";
+                    }
+                    %>
+
+<span class="status <%= statusClass %>">
+    <%= item.status %>
+</span>
 
                 </div>
 

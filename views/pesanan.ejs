@@ -112,17 +112,21 @@
                     </td>
 
                     <td>
-                        <% let warna = "status-pending";
-
+                        <%
+                        let warna = "status-pending";
+                        
                         if(item.status === "Diproses"){
                             warna = "status-diproses";
                         }
-
+                        
                         if(item.status === "Selesai"){
                             warna = "status-selesai";
                         }
+                        
+                        if(item.status === "Dibatalkan"){
+                            warna = "status-dibatalkan";
+                        }
                         %>
-
                         <span
                             id="status<%= item.id %>"
                             class="<%= warna %>"
@@ -132,35 +136,45 @@
                     </td>
 
                     <td>
-                        
-                        <span class="
-                            <%= item.status_pembayaran === 'Lunas'
-                                ? 'status-selesai'
-                                : 'status-pending'
-                            %>
-                        ">
-                            <%= item.status_pembayaran %>
-                        </span>
-                    
+
+                    <%
+                    let warnaPembayaran = "status-pending";
+
+                    if(item.status_pembayaran === "Lunas"){
+                        warnaPembayaran = "status-selesai";
+                    }
+
+                    if(item.status_pembayaran === "Dibatalkan"){
+                        warnaPembayaran = "status-dibatalkan";
+                    }
+                    %>
+
+                    <span class="<%= warnaPembayaran %>">
+                        <%= item.status_pembayaran %>
+                    </span>
+
                     </td>
 
                     <td class="action-buttons">
 
-                        <a href="/pesanan/detail/<%= item.id %>"
-                            class="btn-detail"
-                            > 
+                        <a href="/pesanan/detail/<%= item.id %>" class="btn-detail">
                             Detail
                         </a>
 
                         <br>
 
-                        <button 
+                        <% if(item.status !== "Dibatalkan"){ %>
+
+                        <button
                             class="btn-status"
                             data-id="<%= item.id %>"
                             onclick="updateStatus(this.dataset.id)"
-                            >
-                                Update Status
+                        >
+                            Update Status
                         </button>
+
+                        <% } %>
+
                     </td>
                 </tr>
             <% }) %>
