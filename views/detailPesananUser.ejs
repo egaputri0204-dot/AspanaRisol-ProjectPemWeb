@@ -45,6 +45,7 @@
 
                         <p>
                             <%= new Date(pesanan.tanggal).toLocaleString("id-ID", {
+                                timeZone: "Asia/Jakarta",
                                 day: "numeric",
                                 month: "long",
                                 year: "numeric",
@@ -81,7 +82,7 @@
                         <img
     src="<%= pesanan.bukti_pembayaran %>"
     alt="Bukti Pembayaran"
-    class="qris-image"
+    class="bukti-image"
 >
 
                         <p class="upload-success">
@@ -145,7 +146,7 @@
                         <h4>📱 Scan QRIS Berikut</h4>
 
                         <img
-                            src="/photo/qris.png"
+                            src="/photo/qris.jpeg"
                             alt="QRIS"
                             class="qris-image"
                         >

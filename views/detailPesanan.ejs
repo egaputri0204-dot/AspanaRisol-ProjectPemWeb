@@ -29,6 +29,7 @@
         <strong>Tanggal :</strong>
 
         <%= new Date(pesanan.tanggal).toLocaleString("id-ID", {
+            timeZone: "Asia/Jakarta",
             day: "numeric",
             month: "long",
             year: "numeric",

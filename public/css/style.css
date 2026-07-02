@@ -749,6 +749,11 @@ tfoot th {
   padding: 15px;
 }
 
+.bukti-image {
+  max-width: 300px;
+  border-radius: 10px;
+}
+
 /* Detail Info Pesanan */
 .detail-info {
   background: #fff;
