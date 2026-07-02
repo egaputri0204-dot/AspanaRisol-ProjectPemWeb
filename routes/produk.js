@@ -97,8 +97,8 @@ router.post("/edit/:id", cekLogin, upload.single("gambar"), (req, res) => {
 
     let gambar = result[0].gambar;
 
-    if (req.file) {
-      gambar = req.file.path;
+     if (req.file) {
+    gambar = req.file.path || req.file.secure_url;
     }
 
     db.query(
